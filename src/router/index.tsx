@@ -4,6 +4,7 @@ const Layout = lazy(() => import('@/views/Layout/index'))
 const Home = lazy(() => import('@/views/Home/index'))
 const My = lazy(() => import('@/views/My/My'))
 
+import Login from '@/views/Login'
 const NotFound = lazy(() => import('@/views/NotFound/index'))
 
 const LoadingComponent = ( Comp:JSX.Element ) => (
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
         element: LoadingComponent(<My/>)
       }
     ]
+  },
+  {
+    path: '/login',
+    element: < Login/>
   },
   {
     path: '*',

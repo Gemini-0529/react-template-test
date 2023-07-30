@@ -76,3 +76,9 @@ const Home = lazy(() => import('./Home'))
   </React.Suspense>
 },
 ```
+
+#### 采用模块化样式时，想再添加多个class
+> 模块样式变量加字符串
+```tsx
+  <div className={styles.loginBox + ' otherClass'}>   => <div class="loginBox otherClass"></div>
+```
