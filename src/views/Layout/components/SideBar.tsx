@@ -1,9 +1,8 @@
 import {useState, useCallback} from 'react'
 import { Layout, theme, Menu } from 'antd'
-import type { MenuProps } from 'antd';
 import { useNavigate, useLocation, /*useMatch*/ } from 'react-router-dom'
 const { Sider } = Layout
-const menus: MenuProps['items'] = [
+const menus = [
   {
     key: '/home',
     icon: '',
@@ -46,30 +45,30 @@ export default function SideBar() {
     },
     [],
   )
+  const currentRoute = useLocation()
+  // 刷新路由，展开对应的菜单
+  let defaultOpenKey = ''
+  const findKey = (obj:object) => {
+    return obj.key === currentRoute.pathname
+  }
+  const macheRoute = useCallback(() => {
+    for(let i=0;i<menus.length;i++) {
+      if(menus[i].children && menus[i].children?.find(findKey)) {
+        defaultOpenKey= menus[i].key
+        break;
+      }
+    }
+  },[currentRoute.pathname])
+  macheRoute()
 
-  const [openKeys, setOpenKeys] = useState([])
-  const handleOnOpenChange: MenuProps['onOpenChange'] = (keys:string[]) => {
+  const [openKeys, setOpenKeys] = useState([defaultOpenKey])
+  const handleOnOpenChange = (keys:string[]) => {
     // 标记：如果有3级路由，此写法有bug
-    setOpenKeys([keys.at(-1)])
+    setOpenKeys([keys.at(-1) as string])
   }
 
-  const currentRoute = useLocation()
-  console.log('当前路由--->',currentRoute);
+  
   // 刷新页面，展开对应路由的父级菜单
-  const macheRoute = useCallback(() => {
-    let key = ''
-    const childrensRoute = menus.filter(item => item.children)
-    childrensRoute.forEach(item => {
-      item.children.forEach(child => {
-        if(child.key === currentRoute.pathname) {
-          key = item.key
-          return
-        }
-      })
-    })
-    return key
-  },[currentRoute.pathname])
-  console.log('----->',macheRoute())
   
   return (
     <Sider
