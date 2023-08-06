@@ -82,3 +82,10 @@ const Home = lazy(() => import('./Home'))
 ```tsx
   <div className={styles.loginBox + ' otherClass'}>   => <div class="loginBox otherClass"></div>
 ```
+
+#### 表单回调函数的e ts类型
+```tsx
+const inputChange = (e:ChangeEvent<HTMLInputElement>) => {
+  // ...
+}
+```
